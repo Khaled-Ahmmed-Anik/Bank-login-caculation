@@ -7,7 +7,7 @@ document.getElementById('login-submit').addEventListener('click',function(){
 
 
 
-    if(userEmail=='bap' && userPassword=='pola'){
+    if(userEmail=='baper@hotel.com' && userPassword=='open'){
         window.location.href='banking.html'
     }
 
