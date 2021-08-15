@@ -1,43 +1,42 @@
-document.getElementById('deposite-button').addEventListener('click',function(){
-    const inputField=document.getElementById('deposite-input')
-    const depositeAmount=inputField.value
+function getInputValue(id){
+    const inputField=document.getElementById(id)
+    const inputedAmount=inputField.value
     inputField.value=''
+    return parseFloat(inputedAmount)
+}
 
+function previousAmount(id){
+    const field = document.getElementById(id)
+    const fieldText=field.innerText
+    return parseFloat(fieldText)
+}
 
-    const depositeTotalFeild = document.getElementById('deposite-total')
+function setValue(id, amount){
+    const field = document.getElementById(id)
+    field.innerText=amount
+}
 
-    const currentAmount=depositeTotalFeild.innerText
-
-    const total= parseFloat(depositeAmount)+parseFloat(currentAmount)
-
-    depositeTotalFeild.innerText=total
-
+//deposite
+document.getElementById('deposite-button').addEventListener('click',function(){
+    const inputedValue=getInputValue('deposite-input')
+    if(inputedValue>0){
+        const currentDepositeAmount= inputedValue + previousAmount('deposite-total')
+        setValue('deposite-total',currentDepositeAmount)
     // update balance
-    const balanceField= document.getElementById('balance-total')
-    
-    const totalBalance=total + parseFloat(balanceField.innerText)
-    balanceField.innerText=totalBalance 
+        const currentBalance=previousAmount('balance-total')+ inputedValue;
+        setValue('balance-total',currentBalance)
+    }
 })
 
 
 //withdrow
 document.getElementById('withdraw-button').addEventListener('click',function(){
-    const inputField=document.getElementById('widthdraw-input')
-    const widthdrawAmount=inputField.value
-    inputField.value=''
-
-
-    const widthdrawTotalFeild = document.getElementById('widthdraw-total')
-
-    const currentAmount=widthdrawTotalFeild.innerText
-
-    const total= parseFloat(widthdrawAmount)+parseFloat(currentAmount)
-
-    widthdrawTotalFeild.innerText=total
-
+    const inputedValue=getInputValue('withdraw-input')
+    if(inputedValue>0 && previousAmount('balance-total')>=inputedValue){
+        const currentWithdrawAmount= inputedValue + previousAmount('withdraw-total')
+        setValue('withdraw-total',currentWithdrawAmount)
     // update balance
-    const balanceField= document.getElementById('balance-total')
-    
-    const totalBalance= parseFloat(balanceField.innerText)-parseFloat(widthdrawAmount) 
-    balanceField.innerText=totalBalance 
+        const currentBalance=previousAmount('balance-total')- inputedValue;
+        setValue('balance-total',currentBalance)
+    }
 })
